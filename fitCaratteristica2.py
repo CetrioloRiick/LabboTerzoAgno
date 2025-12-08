@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 # ==========================
 # Lettura dati
 # ==========================
-data = np.genfromtxt("datiCaratteristicaGermanio1.csv", delimiter=",", names=True)
+data = np.genfromtxt("datiCaratteristicaSilicio1.csv", delimiter=",", names=True)
 
 x  = data["V"]
 y  = data["I"]
