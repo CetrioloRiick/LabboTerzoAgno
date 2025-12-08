@@ -2,7 +2,7 @@ from scipy.optimize import curve_fit
 import numpy as np
 import matplotlib.pyplot as plt
 
-data = np.genfromtxt("datiCaratteristicaSilicio.csv", delimiter=",", names=True)
+data = np.genfromtxt("datiCaratteristicaSilicio1.csv", delimiter=",", names=True)
 
 x = data["V"]
 y = data["I"]

@@ -1,0 +1,5 @@
+Risultati del fit:
+iconzero = 0.614875 +/- 0.0804213
+etavuti  = 55.7276 +/- 1.3356
+chi^2        = 259.248
+chi^2 ridotto = 12.3451 (con sigma_I = 1 in unità di I)
