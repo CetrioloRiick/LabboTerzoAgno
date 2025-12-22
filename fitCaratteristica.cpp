@@ -1,12 +1,5 @@
-double pippo(double *v, double *par) {
-    double x = v[0];
-    double iconzero = par[0];
-    double etavuti  = par[1];
-    return iconzero * (exp(x / etavuti) - 1.0);
-}
-
 void fitCaratteristica() {
-    std::ifstream file("datiCaratteristicaSilicio2.csv");
+    std::ifstream file("datiCaratteristicaGermanio1.csv");
     if(!file.is_open()) {
         std::cerr << "Errore apertura file" << std::endl;
         return;
@@ -42,7 +35,6 @@ void fitCaratteristica() {
                          double etavuti  = par[1];
                          return iconzero * (exp(xx / etavuti) - 1.0);
                      },0, 250, 2);
-
     f->SetParameter(0, 1.0);  // iconzero
     f->SetParameter(1, 60.0); // etavuti
 

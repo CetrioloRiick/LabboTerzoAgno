@@ -2,7 +2,7 @@ from scipy.odr import ODR, Model, RealData
 import numpy as np
 import matplotlib.pyplot as plt
 
-data = np.genfromtxt("datiCaratteristicaSilicio1.csv", delimiter=",", names=True)
+data = np.genfromtxt("datiCaratteristicaSilicio2.csv", delimiter=",", names=True)
 
 x  = data["V"]
 y  = data["I"]

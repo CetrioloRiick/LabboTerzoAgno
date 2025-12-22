@@ -1,5 +1,12 @@
-Risultati del fit:
-iconzero = 0.854366 +/- 0.0358992
-etavuti  = 59.9542 +/- 0.520661
-chi^2        = 16.1033
-chi^2 ridotto = 1.00645 (con sigma_I = 1 in unità di I)
+****************************************
+Minimizer is Minuit2 / Migrad
+Chi2                      =      1.05254
+NDf                       =           21
+Edm                       =  1.10625e-07
+NCalls                    =           59
+p0                        =     0.725934   +/-   0.153061    
+p1                        =      57.7146   +/-   2.71213     
+
+--- Risultati fit ---
+iconzero = 0.725934 +/- 0.153061
+etavuti  = 57.7146 +/- 2.71213
