@@ -55,8 +55,8 @@ c1->SetTopMargin(0.08);
                          double etavuti  = par[1];
                          return iconzero * (exp(xx / etavuti) - 1.0);
                      },0, 250, 2);
-    Sf->SetParameter(0, 0.001);  // iconzero
-    Sf->SetParameter(1, 60.0); // etavuti
+    Sf->SetParameter(0, 0.0000062);  // iconzero
+    Sf->SetParameter(1, 0.055); // etavuti
     Sf->SetLineColor(kPink-4);
     Sf->SetLineWidth(3);
     
@@ -71,8 +71,8 @@ c1->SetTopMargin(0.08);
                          double etavuti  = par[1];
                          return iconzero * (exp(xx / etavuti) - 1.0);
                      },0, 250, 2);
-    Gf->SetParameter(0, 1.0);  // iconzero
-    Gf->SetParameter(1, 60.0); // etavuti
+    Gf->SetParameter(0, 0.000001);  // iconzero
+    Gf->SetParameter(1, 0.06); // etavuti
     Gf->SetLineColor(kAzure-4);
     Gf->SetLineWidth(3);
 

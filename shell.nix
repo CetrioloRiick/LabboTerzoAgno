@@ -1,24 +1,35 @@
 let
-  pkgs = import <nixpkgs> { };
+  pkgs = import <nixpkgs> {
+    config = {
+      allowUnfree = true;
+    };
+  };
 in
 pkgs.mkShell {
-  packages = [
-    (pkgs.python3.withPackages (
+  packages = with pkgs; [
+    (python3.withPackages (
       python-pkgs: with python-pkgs; [
-        # select Python packages here
         numpy
         matplotlib
         scipy
       ]
     ))
-    pkgs.root
+    (vscode-with-extensions.override {
+      vscode = vscodium;
+      vscodeExtensions = with vscode-extensions; [
+        ms-python.python
+        ms-python.debugpy
+        ms-python.vscode-pylance
+        ms-python.black-formatter
+        github.github-vscode-theme
+      ];
+    })
   ];
 
-  # All'ingresso nel nix-shell, rimpiazza bash con fish
   shellHook = ''
-    # Se NON siamo già in fish, passa a fish
     if [ -z "$FISH_VERSION" ]; then
       exec ${pkgs.fish}/bin/fish -l
     fi
   '';
 }
+
