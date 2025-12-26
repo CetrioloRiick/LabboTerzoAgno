@@ -12,6 +12,7 @@ pkgs.mkShell {
         numpy
         matplotlib
         scipy
+        lmfit
       ]
     ))
     (vscode-with-extensions.override {
