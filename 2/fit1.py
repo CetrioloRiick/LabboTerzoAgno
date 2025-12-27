@@ -7,57 +7,62 @@ from scipy import odr
 # =========================
 data = np.genfromtxt("2/data1.csv", delimiter=",", names=True)
 
-all_x = data["V"]          # V_CE [V]
-all_y = data["I"]          # I_C [A]
-all_sx = data["errV"]      # errore su V [V]
-all_sy = data["errI"]      # errore su I [A]
+all_V = data["V"]          # V_CE [V]
+all_I = data["I"]          # I_C [A]
+all_sV = data["errV"]      # errore su V [V]
+all_sI = data["errI"]      # errore su I [A]
 
 # Selezione regione lineare
-x = all_x[1:-10]
-y = all_y[1:-10]
-sx = all_sx[1:-10]
-sy = all_sy[1:-10]
+V = all_V[1:-10]
+I = all_I[1:-10]
+sV = all_sV[1:-10]
+sI = all_sI[1:-10]
 
 # =========================
-# Modello lineare
+# Modello lineare INVERSO: V(I)
 # =========================
-def retta(B, x):
-    return B[0] * x + B[1]   # B[0]=m, B[1]=q
+def retta_inversa(B, I):
+    return B[0] * I + B[1]   # B[0]=a, B[1]=b
 
-model = odr.Model(retta)
-data_odr = odr.RealData(x, y, sx=sx, sy=sy)
+model = odr.Model(retta_inversa)
+
+# Ora:
+# x = I
+# y = V
+# sx = errore su I
+# sy = errore su V
+data_odr = odr.RealData(I, V, sx=sI, sy=sV)
 
 odr_fit = odr.ODR(data_odr, model, beta0=[1.0, 0.0])
 output = odr_fit.run()
 
-m, q = output.beta
-dm, dq = output.sd_beta
+a, b = output.beta
+da, db = output.sd_beta
 
 chi2 = output.sum_square
-ndof = len(x) - len(output.beta)
+ndof = len(V) - len(output.beta)
 chi2_red = chi2 / ndof
 
-print(f"m = {m:.3e} ± {dm:.3e} A/V")
-print(f"q = {q:.3e} ± {dq:.3e} A")
+print(f"b = {a:.3e} ± {da:.3e} V/A")
+print(f"a = {b:.3e} ± {db:.3e} V")
 print(f"chi^2 ridotto = {chi2_red:.2f}")
 
 # =========================
-# Fit
+# Inversione analitica per il grafico: I(V)
 # =========================
-x_fit = np.linspace(min(x), max(x), 300)
-y_fit = m * x_fit + q
+V_fit = np.linspace(min(V), max(V), 300)
+I_fit = (V_fit - b) / a
 
 # =========================
-# Grafico
+# Grafico (INVARIATO)
 # =========================
 plt.figure(figsize=(8, 6), dpi=120)
 
-# Conversione corrente in mA
 plt.errorbar(
-    all_x,
-    all_y * 1e3,
-    xerr=all_sx,
-    yerr=all_sy * 1e3,
+    all_V,
+    all_I * 1e3,
+    xerr=all_sV,
+    yerr=all_sI * 1e3,
     fmt='o',
     markersize=4,
     capsize=3,
@@ -65,14 +70,14 @@ plt.errorbar(
 )
 
 plt.plot(
-    x_fit,
-    y_fit * 1e3,
+    V_fit,
+    I_fit * 1e3,
     color='red',
     linewidth=2,
     label=(
-        f'Fit lineare\n'
-        f'm = ({m*1e3:.3f} ± {dm*1e3:.3f}) mA/V\n'
-        f'q = ({q*1e3:.3f} ± {dq*1e3:.3f}) mA'
+        f'Fit lineare (da V(I))\n'
+        f'b = ({a:.3e} ± {da:.3e}) V/A\n'
+        f'a = ({b:.3e} ± {db:.3e}) V'
     )
 )
 
@@ -88,7 +93,5 @@ plt.title(
 plt.grid(True, linestyle='--', alpha=0.6)
 plt.legend(fontsize=10)
 plt.tight_layout()
-
-
-
-plt.show()
+#plt.show()
+plt.savefig("2/Grafico1.pdf")
